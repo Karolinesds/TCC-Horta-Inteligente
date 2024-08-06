@@ -59,8 +59,7 @@ void sensorUmidade() {
   } else if (percentualUmidade > 100) {
     percentualUmidade = 100;
   }
-  Serial.println("Umidade: ");
-  Serial.println(percentualUmidade);
+  umidade = percentualUmidade;
   Blynk.virtualWrite(V3, percentualUmidade)
 }
 
