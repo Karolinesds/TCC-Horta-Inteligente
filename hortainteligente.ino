@@ -53,7 +53,7 @@ void lerSensores() {
 
 void sensorUmidade() {
   int valorSensor = analogRead(A0);
-  int percentualUmidade = (valorSensor - valorSeco) * 100 / (valorMolhado - valorSeco);
+  int percentualUmidade = (valorSensor - valorSeco) * (100 / (valorMolhado - valorSeco));
   if (percentualUmidade < 0) {
     percentualUmidade = 0;
   } else if (percentualUmidade > 100) {
