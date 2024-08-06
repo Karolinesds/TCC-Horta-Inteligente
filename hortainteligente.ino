@@ -26,6 +26,8 @@ int ldr = 16;    // D0 - Sensor de luminosidade
 int ena = 12;    // D6 - Enable A
 int in1 = 13;    // D7 - in 1 Regulador
 int in2 = 15;    // D8 - in 2 Regulador
+int valorSeco = 750;  // valor lido com o solo seco (referência)
+int valorMolhado = 200; // valor lido com o solo saturado (referência)
 
 int valueLed = 1;
 int valueBomba = 1;
@@ -50,13 +52,16 @@ void lerSensores() {
 }
 
 void sensorUmidade() {
-  int valorObtido2 = analogRead(A0);
-  Serial.println("Analog: ");
-  Serial.println(valorObtido2);
-  umidade = (1 - ((valorObtido2) / 1023.0)) * 100.0;
+  int valorSensor = analogRead(A0);
+  int percentualUmidade = (valorSensor - valorSeco) * 100 / (valorMolhado - valorSeco);
+  if (percentualUmidade < 0) {
+    percentualUmidade = 0;
+  } else if (percentualUmidade > 100) {
+    percentualUmidade = 100;
+  }
   Serial.println("Umidade: ");
-  Serial.println(umidade);
-  Blynk.virtualWrite(V3, umidade);
+  Serial.println(percentualUmidade);
+  Blynk.virtualWrite(V3, percentualUmidade)
 }
 
 void lightAct() {
